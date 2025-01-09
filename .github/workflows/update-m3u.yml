@@ -2,34 +2,34 @@ name: Update M3U File
 
 on:
   schedule:
-    - cron: "0 * * * *"  # This runs the job every hour
-  workflow_dispatch:  # This allows manual triggering of the workflow
+    - cron: "0 * * * *"  # Run every hour
+  workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
   update-m3u:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
 
-    - name: Install dependencies
-      run: |
-        pip install requests
+      - name: Install dependencies
+        run: |
+          pip install requests
 
-    - name: Run the update script
-      run: |
-        python update_m3u.py
+      - name: Run the update script
+        run: |
+          python update_m3u.py
 
-    - name: Commit updated M3U file
-      run: |
-        git config --global user.email "your-email@example.com"
-        git config --global user.name "Your Name"
-        git add updated_playlist.m3u
-        git commit -m "Update M3U file"
-        git push
+      - name: Commit updated M3U file
+        run: |
+          git add updated_playlist.m3u
+          git commit -m "Update M3U file" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
