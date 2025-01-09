@@ -1,0 +1,35 @@
+name: Update M3U File
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # This runs the job every hour
+  workflow_dispatch:  # This allows manual triggering of the workflow
+
+jobs:
+  update-m3u:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install requests beautifulsoup4
+
+    - name: Run the update script
+      run: |
+        python update_m3u.py
+
+    - name: Commit updated M3U file
+      run: |
+        git config --global user.email "your-email@example.com"
+        git config --global user.name "Your Name"
+        git add updated_playlist.m3u8
+        git commit -m "Update M3U file"
+        git push
