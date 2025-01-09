@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install requests beautifulsoup4
+        pip install requests
 
     - name: Run the update script
       run: |
@@ -30,6 +30,6 @@ jobs:
       run: |
         git config --global user.email "your-email@example.com"
         git config --global user.name "Your Name"
-        git add updated_playlist.m3u8
+        git add updated_playlist.m3u
         git commit -m "Update M3U file"
         git push
